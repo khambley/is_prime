@@ -14,7 +14,8 @@ class MainApp extends StatefulWidget
 
 class MyAppState extends State<MainApp> 
 {
-  double _number = 0;
+  int _number = 0;
+  String _resultMessage = '';
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class MyAppState extends State<MainApp>
                   hintText: "Enter a number..."
                 ),
                 onChanged: (text) {
-                  var returnValue = double.tryParse(text);
+                  var returnValue = int.tryParse(text);
                   if(returnValue != null) 
                   {
                     setState(() {
@@ -55,11 +56,54 @@ class MyAppState extends State<MainApp>
               const SizedBox(height: 30,),
 
               Text(_number.toStringAsFixed(0)),
+
+              const SizedBox(height: 30),
+
+              ElevatedButton(
+                child: const Text('Check Number'),
+                onPressed: () {
+                  if(_number == 0)
+                  {
+                    return;
+                  }
+                  else 
+                  {
+                    isPrime(_number);
+                  }
+                }
+              ),
+              const SizedBox(height: 30),
+
+              Text(_resultMessage),
             ],
           ),
 
         ),
       ),
     );
+  }
+  void isPrime(int value)
+  {
+    bool isPrime = false;
+    for( var i = 2; i <= value / 2; i++)
+    {
+      if( value % i == 0)
+      {
+          isPrime = false;
+          break;
+      }
+      isPrime = true;
+    }
+    
+
+    if(isPrime == true){
+      _resultMessage = "The number is Prime!";
+    }
+    else {
+      _resultMessage = "The number is NOT Prime.";
+    }
+    setState(() {
+      _resultMessage = _resultMessage;
+    });
   }
 }
